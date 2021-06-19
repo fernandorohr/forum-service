@@ -1,0 +1,8 @@
+server:
+  port: 4200
+  servlet:
+    context-path: /forum
+spring:
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/forum-service
