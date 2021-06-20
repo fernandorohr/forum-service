@@ -1,5 +1,7 @@
 package com.fernando.forumservice.user.facade;
 
+import com.fernando.forumservice.post.model.PostModel;
+import com.fernando.forumservice.user.model.UserModel;
 import com.fernando.forumservice.user.model.request.LoginRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -26,7 +28,15 @@ public class UserFacade {
         return UserMapper.mapToResponse(userService.login(UserMapper.mapToModel(loginRequest)));
     }
 
+    public UserModel findByUsername(String username) {
+        return userService.findByUsername(username);
+    }
+
     public void delete(String username) {
         userService.delete(username);
+    }
+
+    public void addPost(String username, String postId) {
+        userService.addPost(username, postId);
     }
 }

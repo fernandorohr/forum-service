@@ -3,7 +3,6 @@ package com.fernando.forumservice.user.service;
 import com.fernando.forumservice.exception.BadRequestException;
 import com.fernando.forumservice.exception.NotFoundException;
 import com.fernando.forumservice.exception.PreConditionFailedException;
-import com.fernando.forumservice.user.facade.UserFacade;
 import com.fernando.forumservice.user.factory.UserFactory;
 import com.fernando.forumservice.user.mapper.UserMapper;
 import com.fernando.forumservice.user.model.UserModel;
@@ -56,5 +55,17 @@ public class UserService {
 
     public void delete(String username) {
         userRepository.deleteByUsername(username);
+    }
+
+    public void addPost(String username, String postId) {
+        Optional.ofNullable(findByUsername(username))
+                .map(user -> newPostList(user, postId))
+                .map(this::save)
+                .orElseThrow(() -> new NotFoundException("Usuario não encontrado"));
+    }
+
+    private UserModel newPostList(UserModel user, String newPost) {
+        user.getPosts().add(newPost);
+        return user;
     }
 }

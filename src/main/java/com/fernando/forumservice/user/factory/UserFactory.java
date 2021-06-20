@@ -1,12 +1,10 @@
 package com.fernando.forumservice.user.factory;
 
-import com.fernando.forumservice.post.enums.PostTags;
 import com.fernando.forumservice.user.model.UserModel;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 
-import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -14,19 +12,34 @@ import java.util.Optional;
 public class UserFactory {
 
     public UserModel updateUser(UserModel requestUser, UserModel dataBaseUser) {
-        if (ObjectUtils.isEmpty(requestUser)) return null;
+        if (ObjectUtils.isEmpty(dataBaseUser)) return null;
         return UserModel.builder()
-                .id(Optional.ofNullable(dataBaseUser)
-                        .map(UserModel::getId)
-                        .orElse(null))
-                .name(requestUser.getName())
-                .username(requestUser.getUsername())
-                .role(requestUser.getRole())
-                .password(requestUser.getPassword())
-                .email(requestUser.getEmail())
-                .likedTags(requestUser.getLikedTags())
-                .posts(requestUser.getPosts())
-                .likedPosts(requestUser.getLikedPosts())
+                .id(dataBaseUser.getId())
+                .name(Optional.ofNullable(requestUser)
+                        .map(UserModel::getName)
+                        .orElse(dataBaseUser.getName()))
+                .username(Optional.ofNullable(requestUser)
+                        .map(UserModel::getUsername)
+                        .orElse(dataBaseUser.getUsername()))
+                .role(Optional.ofNullable(requestUser)
+                        .map(UserModel::getRole)
+                        .orElse(dataBaseUser.getRole()))
+                .password(Optional.ofNullable(requestUser)
+                        .map(UserModel::getPassword)
+                        .orElse(dataBaseUser.getPassword()))
+                .email(Optional.ofNullable(requestUser)
+                        .map(UserModel::getEmail)
+                        .orElse(dataBaseUser.getEmail()))
+                .firstLogin(dataBaseUser.getFirstLogin())
+                .likedTags(Optional.ofNullable(requestUser)
+                        .map(UserModel::getLikedTags)
+                        .orElse(dataBaseUser.getLikedTags()))
+                .posts(Optional.ofNullable(requestUser)
+                        .map(UserModel::getPosts)
+                        .orElse(dataBaseUser.getPosts()))
+                .likedPosts(Optional.ofNullable(requestUser)
+                        .map(UserModel::getLikedPosts)
+                        .orElse(dataBaseUser.getLikedPosts()))
                 .build();
     }
 }
