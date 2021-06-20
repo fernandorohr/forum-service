@@ -34,12 +34,10 @@ public class UserService {
     }
 
     public UserModel create(UserModel userModel) {
-        if (!ObjectUtils.isEmpty(userRepository.findByUsername(userModel.getUsername()))) {
+        if (!ObjectUtils.isEmpty(userRepository.findByUsernameOrEmail(userModel.getUsername(), userModel.getEmail())))
             throw new PreConditionFailedException("Usuário ja cadastrado");
-        } else {
-            userModel.setFirstLogin(true);
-            return save(userModel);
-        }
+        userModel.setFirstLogin(true);
+        return save(userModel);
     }
 
     public UserModel update(UserModel userModel) {
