@@ -13,14 +13,19 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class PostModel {
+public class PostModel implements Comparable<PostModel> {
 
     private String id;
     private String author;
     private String title;
     private String body;
     private LocalDateTime creationDate;
-    private Integer likes;
+    private Long likes;
     private List<PostTags> tags;
     private List<CommentModel> comments;
+
+    @Override
+    public int compareTo(PostModel post) {
+        return getCreationDate().compareTo(post.getCreationDate());
+    }
 }

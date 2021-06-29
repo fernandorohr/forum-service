@@ -33,7 +33,9 @@ public class PostMapper {
                 .author(post.getAuthor())
                 .title(post.getTitle())
                 .body(post.getBody())
+                .likes(post.getLikes())
                 .tags(post.getTags())
+                .comments(CommentMapper.mapFromRequestToModelList(post.getComments()))
                 .build();
     }
 
@@ -52,6 +54,7 @@ public class PostMapper {
                 .title(post.getTitle())
                 .body(post.getBody())
                 .creationDate(post.getCreationDate())
+                .likes(post.getLikes())
                 .tags(post.getTags())
                 .comments(CommentMapper.mapToModelList(post.getComments()))
                 .build();
@@ -66,6 +69,7 @@ public class PostMapper {
                         .body(postModel.getBody())
                         .creationDate(postModel.getCreationDate())
                         .tags(postModel.getTags())
+                        .likes(postModel.getLikes())
                         .comments(CommentMapper.mapToEntityList(postModel.getComments()))
                         .build())
                 .orElse(null);
@@ -86,6 +90,7 @@ public class PostMapper {
                 .title(post.getTitle())
                 .body(post.getBody())
                 .creationDate(post.getCreationDate())
+                .likes(post.getLikes())
                 .tags(post.getTags())
                 .comments(CommentMapper.mapToResponseList(post.getComments()))
                 .build();

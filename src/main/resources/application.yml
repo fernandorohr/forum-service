@@ -6,3 +6,18 @@ spring:
   data:
     mongodb:
       uri: mongodb://localhost:27017/forum-service
+  mail:
+    host: smtp.gmail.com
+    username: fernando.felipe.flesch
+    port: 587
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+email:
+  from: "fernando.felipe.flesch@sou.faccat.com"
+  subject: "Grupo de Pesquisa INCRIA"
+  text: "testando 1, 2, 3"

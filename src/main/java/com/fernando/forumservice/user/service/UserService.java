@@ -3,6 +3,7 @@ package com.fernando.forumservice.user.service;
 import com.fernando.forumservice.exception.BadRequestException;
 import com.fernando.forumservice.exception.NotFoundException;
 import com.fernando.forumservice.exception.PreConditionFailedException;
+import com.fernando.forumservice.post.model.PostModel;
 import com.fernando.forumservice.user.factory.UserFactory;
 import com.fernando.forumservice.user.mapper.UserMapper;
 import com.fernando.forumservice.user.model.UserModel;
@@ -23,13 +24,13 @@ public class UserService {
     public UserModel findByUsername(String username) {
         return Optional.ofNullable(userRepository.findByUsername(username))
                 .map(UserMapper::mapToModel)
-                .orElseThrow(() -> new NotFoundException("nenhum usuario achado"));
+                .orElseThrow(() -> new NotFoundException("Nenhum usuario achado"));
     }
 
     public UserModel save(UserModel userModel) {
         return Optional.of(userRepository.save(UserMapper.mapToEntity(userModel)))
                 .map(UserMapper::mapToModel)
-                .orElseThrow(() -> new RuntimeException("falha ao salvar usuario"));
+                .orElseThrow(() -> new RuntimeException("Falha ao salvar usuario"));
     }
 
     public UserModel create(UserModel userModel) {
@@ -62,6 +63,18 @@ public class UserService {
                 .map(user -> newPostList(user, postId))
                 .map(this::save)
                 .orElseThrow(() -> new NotFoundException("Usuario não encontrado"));
+    }
+
+    public void deletePost(String postId, String username) {
+        Optional.ofNullable(findByUsername(username))
+                .map(userModel -> removePost(userModel, postId))
+                .map(this::save);
+    }
+
+    private UserModel removePost(UserModel user, String id) {
+        if (!user.getPosts().remove(id))
+            throw new PreConditionFailedException("Post não encontrado no usuário");
+        return user;
     }
 
     private UserModel newPostList(UserModel user, String newPost) {

@@ -1,8 +1,6 @@
 package com.fernando.forumservice.user.controller;
 
-import com.fernando.forumservice.exception.BadRequestException;
-import com.fernando.forumservice.exception.NotFoundException;
-import com.fernando.forumservice.exception.PreConditionFailedException;
+import com.fernando.forumservice.exception.*;
 import com.fernando.forumservice.user.facade.UserFacade;
 import com.fernando.forumservice.user.model.request.LoginRequest;
 import com.fernando.forumservice.user.model.request.UserRequest;
@@ -29,7 +27,7 @@ public class UserController {
     @ApiOperation("Cria um usuário")
     @ApiResponses({
             @ApiResponse(code = 200, message = "OK", response = UserResponse.class),
-            @ApiResponse(code = 412, message = "PRECONDITION FAILED", response = PreConditionFailedException.class),
+            @ApiResponse(code = 412, message = "PRECONDITION FAILED", response = PreConditionFailedExceptionDetails.class),
             @ApiResponse(code = 500, message = "INTERNAL SERVER ERROR", response = Exception.class)
     })
     public UserResponse create(@RequestBody @Valid @NotNull UserRequest userRequest) {
@@ -40,7 +38,7 @@ public class UserController {
     @ApiOperation("Atualiza um usuário")
     @ApiResponses({
             @ApiResponse(code = 200, message = "OK", response = UserResponse.class),
-            @ApiResponse(code = 404, message = "NOT FOUND", response = NotFoundException.class),
+            @ApiResponse(code = 404, message = "NOT FOUND", response = NotFoundExceptionDetails.class),
             @ApiResponse(code = 500, message = "INTERNAL SERVER ERROR", response = Exception.class)
     })
     public UserResponse update(@RequestBody @Valid @NotNull UserRequest userRequest) {
@@ -51,14 +49,14 @@ public class UserController {
     @ApiOperation("Faz o login de um usuário")
     @ApiResponses({
             @ApiResponse(code = 200, message = "OK", response = UserResponse.class),
-            @ApiResponse(code = 400, message = "NOT FOUND", response = BadRequestException.class),
+            @ApiResponse(code = 400, message = "BAD REQUEST", response = BadRequestExceptionDetails.class),
             @ApiResponse(code = 500, message = "INTERNAL SERVER ERROR", response = Exception.class)
     })
     public UserResponse login(@RequestBody @Valid @NotNull LoginRequest loginRequest) {
         return userFacade.login(loginRequest);
     }
 
-    @DeleteMapping()
+    @DeleteMapping("/delete")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @ApiOperation("Deleta um usuário")
     @ApiResponses({

@@ -40,11 +40,24 @@ public class RestExceptionHandler {
     public ResponseEntity<NotFoundExceptionDetails> handlerNotFoundException(NotFoundException exception) {
         return new ResponseEntity<>(
                 NotFoundExceptionDetails.builder()
-                        .title("Pre-Condition Failed")
+                        .title("Not Found")
                         .status(HttpStatus.NOT_FOUND.value())
                         .details(exception.getMessage())
                         .timestamp(LocalDateTime.now())
                         .build(),
                 HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(UnprocessableEntityException.class)
+    public ResponseEntity<UnprocessableEntityExceptionDetails> handlerUnprocessableEntityException(
+            UnprocessableEntityException exception) {
+        return new ResponseEntity<>(
+                UnprocessableEntityExceptionDetails.builder()
+                        .title("Unprocessable Entity")
+                        .status(HttpStatus.UNPROCESSABLE_ENTITY.value())
+                        .details(exception.getMessage())
+                        .timestamp(LocalDateTime.now())
+                        .build(),
+                HttpStatus.UNPROCESSABLE_ENTITY);
     }
 }

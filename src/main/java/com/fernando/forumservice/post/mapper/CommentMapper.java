@@ -13,6 +13,13 @@ import java.util.stream.Collectors;
 
 public class CommentMapper {
 
+    public static List<CommentModel> mapFromRequestToModelList(List<CommentRequest> comments) {
+        if (ObjectUtils.isEmpty(comments)) return Collections.emptyList();
+        return comments.stream()
+                .map(CommentMapper::mapToModel)
+                .collect(Collectors.toList());
+    }
+
     public static CommentModel mapToModel(CommentRequest comment) {
         if (ObjectUtils.isEmpty(comment)) return null;
         return CommentModel.builder()

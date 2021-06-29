@@ -24,7 +24,7 @@ public class PostEntity {
     private String title;
     private String body;
     private LocalDateTime creationDate;
-    private Integer likes;
+    private Long likes;
     private List<PostTags> tags;
     private List<CommentEntity> comments;
 }
