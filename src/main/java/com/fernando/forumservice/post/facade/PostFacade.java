@@ -10,9 +10,12 @@ import com.fernando.forumservice.user.model.UserModel;
 import com.fernando.forumservice.user.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.util.ObjectUtils;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 @AllArgsConstructor
@@ -24,6 +27,13 @@ public class PostFacade {
     public PostResponse create(PostCreationRequest postCreationRequest) {
         UserModel user = userService.findByUsername(postCreationRequest.getUsername());
         PostModel newPost = postService.save(PostMapper.mapToModel(postCreationRequest));
+
+        if (ObjectUtils.isEmpty(user.getPosts())) {
+            user.setPosts(Collections.singletonList(newPost.getId()));
+            userService.save(user);
+            return PostMapper.mapToResponse(newPost);
+        }
+
         user.getPosts().add(newPost.getId());
         userService.save(user);
         return PostMapper.mapToResponse(newPost);
@@ -31,7 +41,7 @@ public class PostFacade {
 
     public List<PostResponse> findAll() {
         List<PostModel> posts = postService.findAll();
-        Collections.sort(posts);
+        posts.sort(Collections.reverseOrder());
         return PostMapper.mapToResponselList(posts);
     }
 

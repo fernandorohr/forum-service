@@ -7,4 +7,11 @@ import lombok.AllArgsConstructor;
 public enum PostTags {
     ENSINO,
     ESTUDO_CIENTIFICO,
+    PORTAL_INCRIA,
+    PESQUISA,
+    ACADEMICS,
+    GRUPO_DE_PESQUISA,
+    RESEARCH,
+    FACCAT,
+    RESERACH_GROUP
 }

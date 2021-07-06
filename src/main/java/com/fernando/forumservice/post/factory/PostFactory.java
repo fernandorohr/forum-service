@@ -1,10 +1,13 @@
 package com.fernando.forumservice.post.factory;
 
+import com.fernando.forumservice.post.model.CommentModel;
 import com.fernando.forumservice.post.model.PostModel;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -12,7 +15,7 @@ import java.util.Optional;
 public class PostFactory {
 
     public PostModel updatePost(PostModel requestPost, PostModel databasePost) {
-        if (ObjectUtils.isEmpty(databasePost)) return null;
+        if (ObjectUtils.isEmpty(databasePost)) return requestPost;
         return PostModel.builder()
                 .id(databasePost.getId())
                 .author(Optional.ofNullable(requestPost)
@@ -31,9 +34,15 @@ public class PostFactory {
                 .tags(Optional.ofNullable(requestPost)
                         .map(PostModel::getTags)
                         .orElse(databasePost.getTags()))
-                .comments(Optional.ofNullable(requestPost)
+                .comments(updateComments(Optional.ofNullable(requestPost)
                         .map(PostModel::getComments)
-                        .orElse(databasePost.getComments()))
+                        .orElse(Collections.emptyList()), databasePost.getComments()))
                 .build();
+    }
+
+    private List<CommentModel> updateComments(List<CommentModel> commentsRequest, List<CommentModel> databaseComments) {
+        if (ObjectUtils.isEmpty(databaseComments)) return commentsRequest;
+        databaseComments.addAll(commentsRequest);
+        return databaseComments;
     }
 }

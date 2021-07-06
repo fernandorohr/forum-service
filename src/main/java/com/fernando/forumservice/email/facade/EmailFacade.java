@@ -10,7 +10,7 @@ public class EmailFacade {
 
     private final EmailService emailService;
 
-    public void sendEmail(String destination) {
-        emailService.sendEmail(destination);
+    public void sendEmail(String destination, String name) {
+        emailService.sendEmail(destination, name);
     }
 }

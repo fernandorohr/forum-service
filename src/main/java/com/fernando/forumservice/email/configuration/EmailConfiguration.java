@@ -13,6 +13,10 @@ public class EmailConfiguration {
     private String fromAddress;
     @Value("${email.subject}")
     private String subject;
-    @Value("${email.text}")
-    private String text;
+    @Value("${email.image-path}")
+    private String imagePath;
+
+    public String getText(String name) {
+        return "Olá, " + name + ". Seja bem vindo ao grupo de pesquisa INCRIA";
+    }
 }

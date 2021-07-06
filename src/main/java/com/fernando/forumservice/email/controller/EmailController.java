@@ -26,7 +26,8 @@ public class EmailController {
             @ApiResponse(code = 200, message = "OK", response = Void.class),
             @ApiResponse(code = 500, message = "INTERNAL SERVER ERROR", response = Exception.class)
     })
-    public void sendEmail(@RequestParam @Valid @NotBlank String destination) {
-        emailFacade.sendEmail(destination);
+    public void sendEmail(@RequestParam @Valid @NotBlank String destination,
+                          @RequestParam @Valid @NotBlank String name) {
+        emailFacade.sendEmail(destination, name);
     }
 }

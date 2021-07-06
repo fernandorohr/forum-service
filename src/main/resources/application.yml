@@ -20,4 +20,4 @@ spring:
 email:
   from: "fernando.felipe.flesch@sou.faccat.com"
   subject: "Grupo de Pesquisa INCRIA"
-  text: "testando 1, 2, 3"
+  image-path: "static/img.png"
